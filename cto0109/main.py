@@ -19,38 +19,23 @@ def desenha_grafico(x, y, figura, xLabel="Entradas", yLabel="Saídas"):
     plt.xlabel(xLabel)
     plt.savefig(figura)
 
-def bucket_sort(lista):
+def radix_sort(lista):
+    base_exp = 1
     maior_numero = max(lista)
-    tamanho_lista = len(lista)
-    size = maior_numero / tamanho_lista
-    cesta = [[] for _ in range(tamanho_lista)]
 
-    for i in range(tamanho_lista):
-        j = int(lista[i] / size)
-        if j != tamanho_lista:
-            cesta[j].append(lista[i])
-        else:
-            cesta[tamanho_lista - 1].append(lista[i])
+    while maior_numero/base_exp > 0:
+        indice = len(lista) + 1
+        numero_ocorrencias = [0] * indice
 
-    for i in range(tamanho_lista):
-        insertion_sort(cesta[i])
+        for i in lista:
+            numero_ocorrencias[i] += 1
 
-    resultado = []
-
-    for i in range(tamanho_lista):
-        resultado = resultado + cesta[i]
-
-    return resultado
-
-
-def insertion_sort(lista):
-    for i in range(1, len(lista)):
-        temp = lista[i]
-        j = i - 1
-        while (j >= 0 and temp < lista[j]):
-            lista[j + 1] = lista[j]
-            j = j - 1
-        lista[j + 1] = temp
+        k = 0
+        for i in range(indice):
+            for j in range(numero_ocorrencias[i]):
+                lista[k] = i
+                k += 1
+        base_exp *= 10
 
 lista_com_tamanhos = [100000, 200000, 400000, 500000, 1000000, 2000000]
 tempo_lista_aleatoria = []
@@ -58,7 +43,8 @@ tempo_lista_aleatoria = []
 for i in range(len(lista_com_tamanhos)):
     lista_aleatoria = gera_lista_aleatoria(lista_com_tamanhos[i])
     tempo_lista_aleatoria.append(
-        timeit.timeit("bucket_sort({})".format(lista_aleatoria),
-                      setup="from __main__ import bucket_sort", number=1))
+        timeit.timeit("radix_sort({})".format(lista_aleatoria),
+                      setup="from __main__ import radix_sort", number=1))
 
+#lista_com_tamanhos = [100000, 200000, 400000, 500000, 1000000, 2000000]
 desenha_grafico(lista_com_tamanhos, tempo_lista_aleatoria, "Tempo.png", 'Tamanho da lista', 'Tempo')
