@@ -42,7 +42,7 @@ tempo_lista_aleatoria = []
 for i in range(len(lista_com_tamanhos)):
     lista_aleatoria = gera_lista_aleatoria(lista_com_tamanhos[i])
     tempo_lista_aleatoria.append(
-        timeit.timeit("count_sort({})".format(lista_aleatoria),
-                      setup="from __main__ import count_sort", number=1))
+        timeit.timeit("bucket_sort({})".format(lista_aleatoria),
+                      setup="from __main__ import bucket_sort", number=1))
 
 desenha_grafico(lista_com_tamanhos, tempo_lista_aleatoria, "Tempo.png", 'Tamanho da lista', 'Tempo')

@@ -19,23 +19,20 @@ def desenha_grafico(x, y, figura, xLabel="Entradas", yLabel="Saídas"):
     plt.xlabel(xLabel)
     plt.savefig(figura)
 
-def radix_sort(lista):
-    base_exp = 1
-    maior_numero = max(lista)
 
-    while maior_numero/base_exp > 0:
-        indice = len(lista) + 1
-        numero_ocorrencias = [0] * indice
+def gnome_sort(lista):
+    tamanho_lista = len(lista)
+    indice = 0
+    while indice < tamanho_lista:
+        if indice == 0:
+            indice = indice + 1
+        if lista[indice] >= lista[indice - 1]:
+            indice = indice + 1
+        else:
+            lista[indice], lista[indice - 1] = lista[indice - 1], lista[indice]
+            indice = indice - 1
+    return lista
 
-        for i in lista:
-            numero_ocorrencias[i] += 1
-
-        k = 0
-        for i in range(indice):
-            for j in range(numero_ocorrencias[i]):
-                lista[k] = i
-                k += 1
-        base_exp *= 10
 
 lista_com_tamanhos = [100000, 200000, 400000, 500000, 1000000, 2000000]
 tempo_lista_aleatoria = []
@@ -43,7 +40,6 @@ tempo_lista_aleatoria = []
 for i in range(len(lista_com_tamanhos)):
     lista_aleatoria = gera_lista_aleatoria(lista_com_tamanhos[i])
     tempo_lista_aleatoria.append(
-        timeit.timeit("radix_sort({})".format(lista_aleatoria),
-                      setup="from __main__ import radix_sort", number=1))
-
+        timeit.timeit("gnome_sort({})".format(lista_aleatoria),
+                      setup="from __main__ import gnome_sort", number=1))
 desenha_grafico(lista_com_tamanhos, tempo_lista_aleatoria, "Tempo.png", 'Tamanho da lista', 'Tempo')

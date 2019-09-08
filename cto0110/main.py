@@ -70,5 +70,4 @@ for i in range(len(lista_com_tamanhos)):
         timeit.timeit("heap_sort({})".format(lista_aleatoria),
                       setup="from __main__ import heap_sort", number=2))
 
-#lista_com_tamanhos = [100000, 200000, 400000, 500000, 1000000, 2000000]
 desenha_grafico(lista_com_tamanhos, tempo_lista_aleatoria, "Tempo.png", 'Tamanho da lista', 'Tempo')
